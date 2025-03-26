@@ -71,6 +71,38 @@ def split_data_save(R, ep, name, test_size=0.2):
     # return train, test
 
 
+def save_split(R, test_size=0.2):
+    num_users, num_items = R.shape
+    R_train = R.copy()
+    test_data = {}
+
+    for user in range(num_users):
+        # Get indices of items rated by the user
+        rated_items = np.where(R[user] > 0)[0]
+        if len(rated_items) == 0:
+            continue  # Skip users with no ratings
+
+        # Select test items randomly
+        num_test = max(1, int(test_size * len(rated_items)))  # Ensure at least 1 test item
+        test_items = np.random.choice(rated_items, size=num_test, replace=False)
+
+        # Store all test items for this user
+        test_data[user] = test_items.tolist()
+
+        # Remove test items from training set
+        R_train[user, test_items] = 0
+
+    return R_train, test_data
+
+def save_test_data(test_data, filename):
+
+    with open(filename, "w") as f:
+        for user, items in test_data.items():
+            line = f"{user}," + ",".join(map(str, items))
+            f.write(line + "\n")
+    print(f"Test data saved to {filename}")
+
+
 def load_TrainTest_matrix(name, ep, max_user):
 
     if name == 'Bound':
@@ -486,5 +518,7 @@ def user_profile(R):
 
 # output_file = "ml-1m/item_popularity.dat"
 # R = load_user_item_matrix_1m()
+# train, test = save_split(R, 0.2)
+# save_test_data(test, filename="ml-yahoo/test_data.dat")
 # interaction = matrix_to_interaction_data(R)
 # calculate_and_save_item_popularity(interaction, output_file)
