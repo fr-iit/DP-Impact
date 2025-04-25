@@ -7,15 +7,15 @@ def dp_matrix_factorization(R, K, gamma_init, emax, epsilon, lamb, itr=150, tol=
     Q = np.random.rand(n_items, K)
 
     delta_r = 2  # Sensitivity of ratings
-    prev_rmse = float('inf')  # Store previous RMSE
-    gamma = gamma_init  # Initialize learning rate
+    prev_rmse = float('inf')  
+    gamma = gamma_init  
 
     for step in range(itr):
-        total_squared_error = 0  # Track sum of squared errors
-        count = 0  # Count the number of rated entries
+        total_squared_error = 0  
+        count = 0  
 
         for u in range(n_users):
-            non_zero_indices = np.where(R[u, :] > 0)[0]  # Get rated items by user `u`
+            non_zero_indices = np.where(R[u, :] > 0)[0]  
             for i in non_zero_indices:
                 predicted_rating = np.dot(P[u, :], Q[i, :])
                 noisy_error = R[u, i] - predicted_rating + np.random.laplace(0, itr * delta_r / epsilon)
@@ -38,16 +38,11 @@ def dp_matrix_factorization(R, K, gamma_init, emax, epsilon, lamb, itr=150, tol=
         # Compute RMSE for this iteration
         current_rmse = np.sqrt(total_squared_error / count)
 
-        # Print progress
-        # print(f"Iteration {step}: RMSE = {current_rmse:.6f}, Learning Rate = {gamma:.6f}")
-
-        # **Dynamic Learning Rate Adjustment**
         if abs(prev_rmse - current_rmse) < tol:
-            gamma *= 0.9  # Reduce learning rate by 10% if RMSE change is too small
+            gamma *= 0.9  
         elif abs(prev_rmse - current_rmse) > 5 * tol:
-            gamma *= 1.05  # Increase learning rate by 5% if RMSE is improving fast
+            gamma *= 1.05  
 
-        # Apply Learning Rate Decay Over Time
         gamma = gamma_init / (1 + decay * step)
 
         # Convergence check
@@ -60,7 +55,6 @@ def dp_matrix_factorization(R, K, gamma_init, emax, epsilon, lamb, itr=150, tol=
     return P, Q
 
 def compute_rmse(R_test, R_predicted):
-    """Compute RMSE for the test set."""
     non_zero_indices = R_test > 0
     mse = mean_squared_error(R_test[non_zero_indices], R_predicted[non_zero_indices])
     return np.sqrt(mse)
