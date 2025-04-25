@@ -5,15 +5,13 @@ import DataLoader as DL
 from itertools import product
 import numpy as np
 
-# Function to create a masked train-test split
 def mask_split(R, train_idx, test_idx):
-    """Create train/test masks instead of row-wise slicing"""
+    
     R_train, R_test = np.zeros_like(R), np.zeros_like(R)
     R_train[train_idx, :] = R[train_idx, :]
     R_test[test_idx, :] = R[test_idx, :]
     return R_train, R_test
 
-# RMSE computation considering only known ratings
 def masked_rmse(R_actual, R_predicted):
     mask = R_actual > 0  # Only consider nonzero ratings
     return np.sqrt(np.mean((R_actual[mask] - R_predicted[mask])**2))
