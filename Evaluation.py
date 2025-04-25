@@ -79,20 +79,19 @@ def cal_MRR(test_data, predicted_rankings, top_k=10):
                 user_MRR_scores[user] = 1 / rank
                 reciprocal_ranks.append(1 / rank)
                 found = True
-                break  # Stop at the first relevant item
+                break  
 
-        if not found:  # Ensure users with no correct predictions get an explicit 0.0
+        if not found:  
             user_MRR_scores[user] = 0.0
 
     mean_MRR = np.mean(reciprocal_ranks) if reciprocal_ranks else 0.0
 
-    return mean_MRR#, user_MRR_scores  # Also returning individual user MRR scores for debugging
+    return mean_MRR
 
 def cal_MRR_group(test_data, predicted_rankings, user_group, top_k=10):
 
     reciprocal_ranks = []
 
-    # If no user_group specified, default to all users in test_data
     if user_group is None:
         user_group = test_data.keys()
 
@@ -106,8 +105,7 @@ def cal_MRR_group(test_data, predicted_rankings, user_group, top_k=10):
             continue
 
         true_items = test_data[user]
-
-        # If user not in predictions or has no predicted list
+        
         if user not in predicted_rankings or not predicted_rankings[user]:
             user_MRR_scores[user] = 0.0
             continue
@@ -126,4 +124,4 @@ def cal_MRR_group(test_data, predicted_rankings, user_group, top_k=10):
             user_MRR_scores[user] = 0.0
 
     mean_MRR = np.mean(reciprocal_ranks) if reciprocal_ranks else 0.0
-    return mean_MRR  # or (mean_MRR, user_MRR_scores) if you want individual user scores
+    return mean_MRR  
