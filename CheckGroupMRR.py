@@ -7,10 +7,7 @@ import Evaluation as EV
 
 
 def load_recommendations(filename):
-    """
-    Load recommendations from a file where 1st column is user_id and rest are recommended items.
-    Handles cases where rows have different numbers of items.
-    """
+    
     recommendations = {}
 
     with open(filename, "r") as f:
@@ -20,7 +17,7 @@ def load_recommendations(filename):
                 continue  # Skip empty lines
 
             user_id = int(parts[0])  # First column is user_id
-            items = list(map(int, parts[1:]))  # Convert remaining columns to list of integers
+            items = list(map(int, parts[1:]))  
             recommendations[user_id] = items
 
     return recommendations
