@@ -5,26 +5,20 @@ from numpy.linalg import solve
 from sklearn.metrics import mean_squared_error
 
 def laplace_noise(scale):
-    """Generate noise from a Laplace distribution with mean 0 and scale parameter."""
     return np.random.laplace(loc=0, scale=scale)
 
 def blp_mechanism(r, l, u, epsilon):
     b = (u - l) / epsilon  # Calculate the sensitivity parameter b
     while True:
-        # Step 3: Generate noise from Laplace distribution
+        
         noise = laplace_noise(b)
 
-        # Step 4: Add noise to original rating
         r_star = r + noise
 
-        # Step 5: Check if perturbed rating is within bounds
         if l <= r_star <= u:
-            # Step 6: Return perturbed rating if within bounds
             return r_star
         else:
-            # Step 8: Repeat until perturbed rating is within bounds
             continue
-
 
 def bound_pertubation(R, epsilon):
     l = 1.0
