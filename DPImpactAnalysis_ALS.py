@@ -20,10 +20,7 @@ import ObjectivePerturbation_SGD_MF as sgdmf
 
 
 def mean_squared_error_10m(y_true, y_pred, chunk_size=500_000):
-    """
-    Computes MSE in chunks to avoid large intermediate arrays.
-    y_true and y_pred must be the same shape (1D).
-    """
+    
     n = len(y_true)
     total_sq_error = 0.0
     for start in range(0, n, chunk_size):
@@ -48,7 +45,7 @@ def compute_rmseALS_10m(R, P, Q, chunk_size=500_000):
     return np.sqrt(mse)
 
 def compute_rmseALS(R, P, Q):
-    """Compute RMSE between actual and predicted ratings."""
+    
     R_pred = np.dot(P, Q.T)
     mask = R > 0  # Only consider observed ratings
     mse = mean_squared_error(R[mask], R_pred[mask])
