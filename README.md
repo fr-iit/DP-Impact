@@ -1,4 +1,4 @@
-# The Price of Privacy: A Comprehensive Study on Differential Privacy’s Impacts on Recommendation Performance, Fairness, and Stability
+# The Price of Privacy: A Comprehensive Study on the Impacts of Pure Differential Privacy over Recommendation Performance, Fairness and Stability
 
 ## Abstract
 
@@ -13,8 +13,8 @@ Collaborative filtering-based recommender systems typically rely on large volume
 
 ## Instruction
 
-  * You must have the MovieLens (https://grouplens.org/datasets/movielens/) & yahoo movie data (https://webscope.sandbox.yahoo.com/) downloaded in your project.
-  * Use 1. 'ml100k' ; 2. 'ml1m' ; 3. 'yahoo' ; 4. 'ml10m' keywords as the value of dataset_name variable to load respective datset through DataLoader.py
+  * You must have the MovieLens (https://grouplens.org/datasets/movielens/), yahoo movie (https://webscope.sandbox.yahoo.com/) and Amazon All_Beauty data (https://amazon-reviews-2023.github.io/) downloaded in your project.
+  * Use 1. 'ml100k' ; 2. 'ml1m' ; 3. 'yahoo' ; 4. 'ml10m'; 5. 'beauty' keywords as the value of dataset_name variable to load respective datset through DataLoader.py
   * Use the following keyword to execute the respective perturbation method for analysis
     1. 'NoDP' -> denotes non-privacy-preserved matrix factorization recommender system
     2. 'UDP-MF' -> Unbound input perturbation approach
