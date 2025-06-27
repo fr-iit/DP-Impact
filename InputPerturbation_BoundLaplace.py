@@ -28,9 +28,11 @@ def bound_pertubation(R, epsilon):
 
     perturbed_ratings = np.zeros_like(R)
     for i in range(n_users):
+        num_ratings = np.count_nonzero(R[i, :])
+        user_ep = epsilon / num_ratings
         for j in range(n_items):
             if R[i, j] > 0:
-                perturbed_ratings[i, j] = np.round(blp_mechanism(R[i, j], l, u, epsilon), 2)
+                perturbed_ratings[i, j] = np.round(blp_mechanism(R[i, j], l, u, user_ep), 2)
                 # print(perturbed_ratings[i, j])
 
     return perturbed_ratings
